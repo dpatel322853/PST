@@ -1,0 +1,299 @@
+[
+  {
+    "name": "Base_Bounding_Full_Duty_Loss",
+    "description": "Immediate collapse of SH outlet to failure target; nominal protection.",
+    "overrides": {
+      "model_mode": "bounding",
+      "failure_target_temp_c": -40.0
+    }
+  },
+  {
+    "name": "Base_Dynamic_Full_Duty_Loss",
+    "description": "1st-order SH outlet decay after full heating medium failure.",
+    "overrides": {
+      "model_mode": "dynamic",
+      "failure_target_temp_c": -40.0,
+      "superheater_tau_s": 120.0
+    }
+  },
+  {
+    "name": "Partial_Duty_Loss_50pct",
+    "description": "SH outlet decays to midpoint between normal and inlet temperature.",
+    "overrides": {
+      "model_mode": "dynamic",
+      "failure_target_temp_c": -5.0,
+      "superheater_tau_s": 180.0
+    }
+  },
+  {
+    "name": "Slow_Heat_Collapse",
+    "description": "Slow exchanger response due to thermal inventory / shell-side holdup.",
+    "overrides": {
+      "model_mode": "dynamic",
+      "failure_target_temp_c": -40.0,
+      "superheater_tau_s": 300.0
+    }
+  },
+  {
+    "name": "Fast_Heat_Collapse",
+    "description": "Very fast exchanger response; conservative than base dynamic.",
+    "overrides": {
+      "model_mode": "dynamic",
+      "failure_target_temp_c": -40.0,
+      "superheater_tau_s": 30.0
+    }
+  },
+  {
+    "name": "Trip_Setpoint_Degraded",
+    "description": "Lower trip setpoint leaves less margin.",
+    "overrides": {
+      "tt_setpoint_c": -5.0
+    }
+  },
+  {
+    "name": "High_TT_Lag",
+    "description": "Sensor lag doubled (common-cause degraded response).",
+    "overrides": {
+      "sensors": [
+        {
+          "tag": "TT1",
+          "tau_s": 120.0
+        },
+        {
+          "tag": "TT2",
+          "tau_s": 120.0
+        },
+        {
+          "tag": "TT3",
+          "tau_s": 120.0
+        }
+      ]
+    }
+  },
+  {
+    "name": "One_TT_Frozen_Normal",
+    "description": "One of three sensors stuck at initial normal reading; 2oo3 still available.",
+    "overrides": {
+      "sensors": [
+        {
+          "tag": "TT1",
+          "tau_s": 60.0,
+          "fail_mode": "frozen_initial"
+        },
+        {
+          "tag": "TT2",
+          "tau_s": 60.0
+        },
+        {
+          "tag": "TT3",
+          "tau_s": 60.0
+        }
+      ]
+    }
+  },
+  {
+    "name": "One_TT_Stuck_High",
+    "description": "One TT fails high; 2oo3 logic still possible but delayed sensitivity.",
+    "overrides": {
+      "sensors": [
+        {
+          "tag": "TT1",
+          "tau_s": 60.0,
+          "fail_mode": "stuck_high"
+        },
+        {
+          "tag": "TT2",
+          "tau_s": 60.0
+        },
+        {
+          "tag": "TT3",
+          "tau_s": 60.0
+        }
+      ]
+    }
+  },
+  {
+    "name": "One_TT_Stuck_Low_Spurious",
+    "description": "One TT stuck low; checks robustness of 2oo3 against spurious trip.",
+    "overrides": {
+      "sensors": [
+        {
+          "tag": "TT1",
+          "tau_s": 60.0,
+          "fail_mode": "stuck_low"
+        },
+        {
+          "tag": "TT2",
+          "tau_s": 60.0
+        },
+        {
+          "tag": "TT3",
+          "tau_s": 60.0
+        }
+      ]
+    }
+  },
+  {
+    "name": "Logic_Solver_Delay",
+    "description": "Trip voting decision plus logic solver adds 5 s.",
+    "overrides": {
+      "logic_solver_delay_s": 5.0
+    }
+  },
+  {
+    "name": "Valve_Slow_Closure",
+    "description": "Actuator / valve closes slower.",
+    "overrides": {
+      "xv_closure_time_s": 20.0
+    }
+  },
+  {
+    "name": "Valve_Deadtime_5s",
+    "description": "Actuator deadtime before movement.",
+    "overrides": {
+      "xv_dead_time_s": 5.0
+    }
+  },
+  {
+    "name": "Valve_Fails_Partial_20pct_Open",
+    "description": "Valve only closes to 20% open.",
+    "overrides": {
+      "valve_characteristic": "fail_partial",
+      "valve_min_open_frac": 0.2
+    }
+  },
+  {
+    "name": "Valve_Stuck_Open",
+    "description": "Valve never closes, worst protective failure case.",
+    "overrides": {
+      "valve_characteristic": "stuck_open"
+    }
+  },
+  {
+    "name": "Equal_Percentage_Like_Closure",
+    "description": "Non-linear closure shape for sensitivity screening.",
+    "overrides": {
+      "valve_characteristic": "equal_percentage_like",
+      "valve_exponent": 2.0
+    }
+  },
+  {
+    "name": "High_Ethylene_Flow",
+    "description": "Increased throughput reduces residence time but increases convective transport.",
+    "overrides": {
+      "flowrate_kgph": 40000.0
+    }
+  },
+  {
+    "name": "Low_Ethylene_Flow",
+    "description": "Reduced throughput changes transport and thermal inventory response.",
+    "overrides": {
+      "flowrate_kgph": 20000.0
+    }
+  },
+  {
+    "name": "Low_Ambient",
+    "description": "Cooler ambient reduces heat gain to pipe.",
+    "overrides": {
+      "ambient_temp_c": 10.0
+    }
+  },
+  {
+    "name": "High_Ambient",
+    "description": "Warmer ambient increases heat gain to pipe.",
+    "overrides": {
+      "ambient_temp_c": 45.0
+    }
+  },
+  {
+    "name": "High_Wind",
+    "description": "Higher air velocity raises external h.",
+    "overrides": {
+      "air_velocity_mps": 5.0
+    }
+  },
+  {
+    "name": "Low_Wind",
+    "description": "Quieter air reduces ambient heat transfer.",
+    "overrides": {
+      "air_velocity_mps": 0.2
+    }
+  },
+  {
+    "name": "Thin_CS_Wall",
+    "description": "Less downstream CS thermal mass.",
+    "overrides": {
+      "section_b_wall_mm": 7.0
+    }
+  },
+  {
+    "name": "Thick_CS_Wall",
+    "description": "Higher downstream CS thermal mass.",
+    "overrides": {
+      "section_b_wall_mm": 14.0
+    }
+  },
+  {
+    "name": "Low_Initial_SH_Outlet",
+    "description": "Processor already operating closer to trip limit.",
+    "overrides": {
+      "initial_superheater_outlet_temp_c": 10.0
+    }
+  },
+  {
+    "name": "StartUp_Cold_Metal",
+    "description": "Initial pipe metal temperature colder than fluid due to startup / upset.",
+    "overrides": {
+      "initial_pipe_metal_temp_c": 0.0
+    }
+  },
+  {
+    "name": "Delayed_Failure_Initiation",
+    "description": "Heating-medium failure starts later in simulation.",
+    "overrides": {
+      "failure_start_time_s": 120.0
+    }
+  },
+  {
+    "name": "Pressure_Low_Downstream",
+    "description": "Lower downstream absolute pressure changes PR density and transport characteristics.",
+    "overrides": {
+      "section_b_pressure_bar_a": 6.0
+    }
+  },
+  {
+    "name": "Pressure_High_Downstream",
+    "description": "Higher downstream absolute pressure changes PR density and transport characteristics.",
+    "overrides": {
+      "section_b_pressure_bar_a": 20.0
+    }
+  },
+  {
+    "name": "Combined_Worst_Credible",
+    "description": "Fast collapse + high TT lag + logic delay + slow valve + low ambient + thin CS wall.",
+    "overrides": {
+      "model_mode": "dynamic",
+      "superheater_tau_s": 20.0,
+      "failure_target_temp_c": -40.0,
+      "sensors": [
+        {
+          "tag": "TT1",
+          "tau_s": 120.0
+        },
+        {
+          "tag": "TT2",
+          "tau_s": 120.0
+        },
+        {
+          "tag": "TT3",
+          "tau_s": 120.0
+        }
+      ],
+      "logic_solver_delay_s": 5.0,
+      "xv_dead_time_s": 2.0,
+      "xv_closure_time_s": 20.0,
+      "ambient_temp_c": 10.0,
+      "section_b_wall_mm": 7.0
+    }
+  }
+]
